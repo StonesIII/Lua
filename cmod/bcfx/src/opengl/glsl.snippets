@@ -1,0 +1,1250 @@
+/*
+AUTO-COMPLETE SNIPPETS FOR GLSL WITHIN VISUAL STUDIO CODE
+First version comes from Lewis Lepton
+https://gist.github.com/lewislepton
+https://lewislepton.com
+More glsl built in function added by zhyingkun
+https://github.com/zhyingkun
+https://zhyingkun.com
+
+useful places that i grabbed info from
+http://www.shaderific.com/glsl
+https://www.khronos.org/opengl/wiki/OpenGL_Shading_Language
+https://www.khronos.org/registry/OpenGL-Refpages/gl4/
+*/
+{
+	// Preprocessor
+	"#define": {
+		"prefix": "#define",
+		"body": "#define",
+		"description": "#define and #undef functionality are defined as is standard for C++ preprocessors for macro definitions both with and without macro parameters."
+	},
+	"#undef": {
+		"prefix": "#undef",
+		"body": "#undef",
+		"description": "#define and #undef functionality are defined as is standard for C++ preprocessors for macro definitions both with and without macro parameters."
+	},
+	"#if": {
+		"prefix": "#if",
+		"body": "#if",
+		"description": "operate as is standard for C++ preprocessors"
+	},
+	"#ifdef": {
+		"prefix": "#ifdef",
+		"body": "#ifdef",
+		"description": "operate as is standard for C++ preprocessors"
+	},
+	"#ifndef": {
+		"prefix": "#ifndef",
+		"body": "#ifndef",
+		"description": "operate as is standard for C++ preprocessors"
+	},
+	"#else": {
+		"prefix": "#else",
+		"body": "#else",
+		"description": "operate as is standard for C++ preprocessors"
+	},
+	"#elif": {
+		"prefix": "#elif",
+		"body": "#elif",
+		"description": "operate as is standard for C++ preprocessors"
+	},
+	"#endif": {
+		"prefix": "#endif",
+		"body": "#endif",
+		"description": "operate as is standard for C++ preprocessors"
+	},
+	"#error": {
+		"prefix": "#error",
+		"body": "#error $1",
+		"description": "#error message\n\n#error will cause the implementation to put a diagnostic message into the shader object’s information log\n\nThe message will be the tokens following the #error directive, up to the first new-line. The implementation must then consider the shader to be ill-formed."
+	},
+	"#pragma": {
+		"prefix": "#pragma",
+		"body": "#pragma $1",
+		"description": "#pragma allows implementation dependent compiler control. Tokens following #pragma are not subject to preprocessor macro expansion. If an implementation does not recognize the tokens following #pragma, then it will ignore that pragma. The following pragmas are defined as part of the language.\n\n#pragma STDGL\n\n#pragma optimize(on)\n\n#pragma optimize(off)\n\n#pragma debug(on)\n\n#pragma debug(off)"
+	},
+	"#extension": {
+		"prefix": "#extension",
+		"body": "#extension $1 : $2",
+		"description": "#extension extension_name : behavior\n#extension all : behavior\nbehavior: require/enable/warn/disable"
+	},
+	"#version": {
+		"prefix": "#version 410 core",
+		"body": "#version 410 core",
+		"description": "#version number profile(opt)\n\nIf the optional profile argument is provided, it must be the name of an OpenGL profile. Currently, there are two choices:\n\ncore/compatibility\n\nIf no profile argument is provided, the default is core.\n\nThere is a built-in macro definition for each profile the implementation supports. All implementations provide the following macro:\n\n#define GL_core_profile 1\n\nImplementations providing the compatibility profile provide the following macro:\n\n#define GL_compatibility_profile 1\n\nThe #version directive must occur in a shader before anything else, except for comments and white space."
+	},
+	"#line": {
+		"prefix": "#line",
+		"body": "#line",
+		"description": "#line line-number\n#line line-number source-string-number\nwhere line-number and source-string-number are constant integer expressions. After processing this directive (including its new-line), the implementation will behave as if it is compiling at line number line-number and source string number source-string-number. Subsequent source strings will be numbered sequentially, until another #line directive overrides that numbering."
+	},
+	"defined": {
+		"prefix": "defined",
+		"body": "defined",
+		"description": "defined identifier\n\ndefined(identifier)"
+	},
+	"##": {
+		"prefix": "##",
+		"body": "##",
+		"description": "Two tokens in a macro can be concatenated into one token using the token pasting (##) operator, as is standard for C++ preprocessors. The result must be a valid single token, which will then be subject to macro expansion. That is, macro expansion happens only after token pasting. There are no other number sign based operators (e.g., no # or #@), nor is there a sizeof operator."
+	},
+	"__LINE__": {
+		"prefix": "__LINE__",
+		"body": "__LINE__",
+		"description": "__LINE__ will substitute a decimal integer constant that is one more than the number of preceding newlines in the current source string."
+	},
+	"__FILE__": {
+		"prefix": "__FILE__",
+		"body": "__FILE__",
+		"description": "__FILE__ will substitute a decimal integer constant that says which source string number is currently being processed."
+	},
+	"__VERSION__": {
+		"prefix": "__VERSION__",
+		"body": "__VERSION__",
+		"description": "__VERSION__ will substitute a decimal integer reflecting the version number of the OpenGL shading language."
+	},
+
+	// Storage Qualifiers
+	"const": {
+		"prefix": "const",
+		"body": "const",
+		"description": "The qualifier const is used for variables that are compile-time constants or for function parameters that are read-only."
+	},
+	"attribute": {
+		"prefix": "attribute",
+		"body": "attribute",
+		"description": "The qualifier attribute is used to declare variables that are shared between a vertex shader and the OpenGL ES environment.\nSince the vertex shader is executed one time for each vertex attributes are used to specify per vertex data. They typically provide data such as the object space position, the normal direction and the texture coordinates of a vertex. Attributes are read-only variables, i.e. their value can not be changed in the vertex shader.\nSide note: Since an attribute is never initialized in the shader it has to be loaded with data by the application executing the shader."
+	},
+	"uniform": {
+		"prefix": "uniform",
+		"body": "uniform",
+		"description": "The qualifier uniform is used to declare variables that are shared between a shader and the OpenGL ES environment.\nUniforms can be used in the vertex shader and the fragment shader and they must have global scope. The same uniform variable can be used in the vertex and the fragment shader, but since both shaders share the same name space the declaration has to be identical. Uniforms are used to specify properties of the object that is rendered. Examples are the projection matrix, the light position or the material color of the object. Uniforms are read-only variables, i.e. their value can not be changed in the shader.\nSide note: Since a uniform is never initialized in the shader it has to be loaded with data by the application executing the shader."
+	},
+	"varying": {
+		"prefix": "varying",
+		"body": "varying",
+		"description": "The qualifier varying is used to declare variables that are shared between the vertex shader and the fragment shader.\nVarying are used for information that is calculated in the vertex shader and should be handed over to the fragment shader. Both shaders have to declare the varying and the declarations must be identical. The vertex shader initializes the varying for each vertex. After that the per vertex data of the varying is interpolated during rasterization before being handed over to the fragment shader.\nThe varying qualifier can only be used with floating point scalar, floating point vectors and (floating point) matrices as well as arrays containing these types."
+	},
+
+	// Precision Qualifiers
+	"highp": {
+		"prefix": "highp",
+		"body": "highp",
+		"description": "The qualifier highp is used to specify the highest available precision for a variable. The variable has to be an integer or a floating point scalar or a vector or matrix based on these types. The precision qualifier precedes the type in the variable declaration.\nIn the vertex shader the use of a precision qualifier is optional. If no qualifier is given all variables are of highest precision. In the fragment shader a precision qualifier has to be used when declaring a variable unless a default precision has been defined for the specific type.\n\nuniform highp vec3 lightDirection;\n\nThe actual range corresponding to a precision qualifier is dependent on the specific OpenGL ES implementation. Using a lower precision might have a positive effect on performance (frame rates) and power efficiency but might also cause a loss in rendering quality. The appropriate trade-off can only be determined by testing different precision configurations."
+	},
+	"mediump": {
+		"prefix": "mediump",
+		"body": "mediump",
+		"description": "The qualifier mediump is used to specify a precision between the highest and lowest available precision for a variable. The variable has to be an integer or a floating point scalar or a vector or matrix based on these types. The precision qualifier precedes the type in the variable declaration.\nIn the vertex shader the use of a precision qualifier is optional. If no qualifier is given all variables are of highest precision. In the fragment shader a precision qualifier has to be used when declaring a variable unless a default precision has been defined for the specific type.\n\nvarying mediump vec2 textureCoordinate;\n\nThe actual range corresponding to a precision qualifier is dependent on the specific OpenGL ES implementation. Using a lower precision might have a positive effect on performance (frame rates) and power efficiency but might also cause a loss in rendering quality. The appropriate trade-off can only be determined by testing different precision configurations."
+	},
+	"lowp": {
+		"prefix": "lowp",
+		"body": "lowp",
+		"description": "The qualifier lowp is used to specify the lowest available precision for a variable. The variable has to be an integer or a floating point scalar or a vector or matrix based on these types. The precision qualifier precedes the type in the variable declaration.\nIn the vertex shader the use of a precision qualifier is optional. If no qualifier is given all variables are of highest precision. In the fragment shader a precision qualifier has to be used when declaring a variable unless a default precision has been defined for the specific type.\n\nvarying lowp vec4 colorVarying;\n\nThe actual range corresponding to a precision qualifier is dependent on the specific OpenGL ES implementation. Using a lower precision might have a positive effect on performance (frame rates) and power efficiency but might also cause a loss in rendering quality. The appropriate trade-off can only be determined by testing different precision configurations."
+	},
+	"precision": {
+		"prefix": "precision",
+		"body": "precision",
+		"description": "The keyword precision is used in conjunction with a precision qualifier and a data type to specify the default precision for that data type. The type has to be an integer or a floating point scalar or a vector or matrix based on these types.\nIn the vertex shader all variables are of highest precision by default. The default can be changed defining another default precision. In the fragment shader a precision qualifier has to be used when declaring a variable unless a default precision has been defined for the specific type.\n\nprecision highp float;\n\nThe actual range corresponding to a precision qualifier is dependent on the specific OpenGL ES implementation. Using a lower precision might have a positive effect on performance (frame rates) and power efficiency but might also cause a loss in rendering quality. The appropriate trade-off can only be determined by testing different precision configurations."
+	},
+
+	///PARAMETER QUALIFIERS
+	"in": {
+		"prefix": "in",
+		"body": "in",
+		"description": "The qualifier in is used to mark a parameter as read-only when a function is declared. The parameter will be passed by value to the function and the value can not be modified by the function.\nThe above function declaration shows the three possible parameter qualifiers. The usage of the read-only qualifier is not necessary since this is the default if no qualifier is specified."
+	},
+	"out": {
+		"prefix": "out",
+		"body": "out",
+		"description": "The qualifier out is used to mark a parameter as write-only when a function is declared. The parameter will be passed by reference to the function but it is not initialized, i.e. the value can not be read. The value can be modified by the function and the changes are preserved after the function exits.\nThe above function declaration shows the three possible parameter qualifiers. The usage of the read-only qualifier is not necessary since this is the default if no qualifier is specified."
+	},
+	"inout": {
+		"prefix": "inout",
+		"body": "inout",
+		"description": "The qualifier inout is used to mark a parameter as read-write when a function is declared. The parameter will be passed by reference to the function and is initialized, i.e. the value can be read. The value can be modified by the function and the changes are preserved after the function exits.\nThe above function declaration shows the three possible parameter qualifiers. The usage of the read-only qualifier is not necessary since this is the default if no qualifier is specified."
+	},
+
+	// Scalar Types
+	"void": {
+		"prefix": "void",
+		"body":	"void main(void);",
+		"description": "void main(void);\nint aFunction(void);\nvoid bFunction(float);\n\nThe data type void is used when the parameter list of a function is empty and when a function does not return a value."
+	},
+	"int": {
+		"prefix": "int",
+		"body":	"int ${NAME} = $2;",
+		"description": "int aInt = 42;\nint bInt = int(aBool);\nint cInt = int(aFloat);\n\nThe data type int is used for integer values.\n\nSide note: Implicit type conversions are not supported. Type conversions can be done using constructors as shown in the second and third example."
+	},
+	"float": {
+		"prefix": "float",
+		"body":	"float ${NAME} = $2;",
+		"description": "float aFloat = 1.0;\nfloat bFloat = float(aBool);\nfloat cFloat = float(aInt);\n\nThe data type bool is used for boolean values (true or false).\n\nSide note: Implicit type conversions are not supported. Type conversions can be done using constructors as shown in the second and third example."
+	},
+	"bool": {
+		"prefix": "bool",
+		"body":	"bool ${NAME} = $2;",
+		"description": "bool aBool = true;\nbool bBool = bool(aInt);\nbool cBool = bool(aFloat);\n\nThe data type bool is used for boolean values (true or false).\n\nSide note: Implicit type conversions are not supported. Type conversions can be done using constructors as shown in the second and third example."
+	},
+	"uint": {
+		"prefix": "uint",
+		"body":	"uint ${NAME} = $2;",
+		"description": "uint aUint = 43;"
+	},
+	"double": {
+		"prefix": "double",
+		"body":	"double ${NAME} = $2;",
+		"description": "double aDouble = 2.0lf;\ndouble bDouble = 2.0LF"
+	},
+	"struct": {
+		"prefix": "struct",
+		"body":	"struct $1 {} $2;",
+		"description": "struct light {\n\tfloat intensity;\n\tvec3 position;\n} lightVar;"
+	},
+
+	///VECTOR TYPES
+	"vec2": {
+		"prefix": "vec2",
+		"body": "vec2($1, $2)",
+		"description": "The data type vec2 is used for floating point vectors with two components. There are several ways to initialize a vector:\n• Components are specified by providing a scalar value for each component (first example).\n• Components are specified by providing one scalar value. This value is used for all components (the second example is equivalent to the first).\n• Components are specified by providing a vector of higher dimension. The respective values are used to initialize the components (the second and third example are equivalent).\n\nSide note: The vector constructors can be used to cast between different vector types since type conversions are done automatically for each component."
+	},
+	"vec3": {
+		"prefix": "vec3",
+		"body": "vec3($1, $2, $4)",
+		"description": "The data type vec3 is used for floating point vectors with three components. There are several ways to initialize a vector:\n• Components are specified by providing a scalar value for each component (first example).\n• Components are specified by providing one scalar value. This value is used for all components (the second example is equivalent to the first).\nComponents are specified by providing a vector of higher dimension. The respective values are used to initialize the components (the second and third example are equivalent).• Components are specified by providing a combination of vectors and/or scalars. The respective values are used to initialize the vector (the fifth and sixth example are equivalent). The arguments of the constructor must have at least as many components as the vector that is initialized.\n\nSide note: The vector constructors can be used to cast between different vector types since type conversions are done automatically for each component."
+	},
+	"vec4": {
+		"prefix": "vec4",
+		"body": "vec4($1, $2, $4, $5)",
+		"description": "The data type vec4 is used for floating point vectors with four components. There are several ways to initialize a vector:\n• Components are specified by providing a scalar value for each component (first example).\n• Components are specified by providing one scalar value. This value is used for all components (the second example is equivalent to the first).\n• Components are specified by providing a combination of vectors and scalars. The respective values are used to initialize the components (the third and fourth example are equivalent). The arguments of the constructor must have at least as many components as the vector that is initialized.\n\nSide note: The vector constructors can be used to cast between different vector types since type conversions are done automatically for each component."
+	},
+
+	//MATRIX TYPES
+	"mat2": {
+		"prefix": "mat2",
+		"body": "mat2($1, $2)",
+		"description": "The data type mat2 is used for floating point matrices with two times two components in column major order. There are several ways to initialize a matrix:\n• Components are specified by providing a scalar value for each component (first example). The matrix is filled column by column.\n• Components are specified by providing one scalar value. This value is used for the components on the main diagonal (the second example is equivalent to the first).\n• Components are specified by providing a combination of vectors and scalars. The respective values are used to initialize the components column by column. The arguments of the constructor must have at least as many components as the matrix that is initialized."
+	},
+	"mat3": {
+		"prefix": "mat3",
+		"body": "mat3($1, $2, $4)",
+		"description": "The data type mat3 is used for floating point matrices with three times three components in column major order. There are several ways to initialize a matrix:\n• Components are specified by providing a scalar value for each component (first example). The matrix is filled column by column.\n• Components are specified by providing one scalar value. This value is used for the components on the main diagonal (the second example is equivalent to the first).\n• Components are specified by providing a combination of vectors and scalars. The respective values are used to initialize the components column by column. The arguments of the constructor must have at least as many components as the matrix that is initialized."
+	},
+	"mat4": {
+		"prefix": "mat4",
+		"body": "mat4($1, $2, $4, $5)",
+		"description": "The data type mat4 is used for floating point matrices with four times four components in column major order. There are several ways to initialize a matrix:\n• Components are specified by providing a scalar value for each component (first example). The matrix is filled column by column.\n• Components are specified by providing one scalar value. This value is used for the components on the main diagonal (the second example is equivalent to the first).\n• Components are specified by providing a combination of vectors and scalars. The respective values are used to initialize the components column by column. The arguments of the constructor must have at least as many components as the matrix that is initialized."
+	},
+
+	//SAMPLER TYPES
+	"sampler2D": {
+		"prefix": "sampler2D",
+		"body":	"uniform sampler2D ${NAME};",
+		"description": "uniform sampler2D texture;\n\nThe data type sampler2D is used to provide access to a 2D texture. It can only be declared as a uniform variable since it is a reference to data that has been loaded to a texture unit.\n\nSide note: On iOS devices this data type can only be used in the fragment shader since they don't have texture image units that can be accessed by the vertex shader."
+	},
+	"samplerCube": {
+		"prefix": "samplerCube",
+		"body":	"uniform samplerCube ${NAME};",
+		"description": "uniform samplerCube texture;\n\nThe data type samplerCube is used to provide access to a cubemap texture. It can only be declared as a uniform variable since it is a reference to data that has been loaded to a texture unit.\n\nSide note: On iOS devices this data type can only be used in the fragment shader since they don't have texture image units that can be accessed by the vertex shader."
+	},
+
+	///LOOPS
+	"for": {
+		"prefix": "for",
+		"body": [
+			"for(int $1 = 0; $1 < $2; $1++){",
+				"\t",
+			"}"
+		],
+		"description": "for( ; ; ){\n\t//code\n}\n\nThe keyword for is used to describe a loop that is controlled by a counter. The parentheses enclose three expressions that initialize, check and update the variable used as counter. The body defined by curly braces encloses the statements that are executed at each pass of the loop.\n\nfor(int i = 0; i <= 99; i++){\n\taFunction();\n}\n\nThe execution of a single pass or the whole loop can be aborted by using a continue or a break statement respectively."
+	},
+	"while": {
+		"prefix": "while",
+		"body": [
+			"while($1){",
+				"\t",
+			"}"
+		],
+		"description": "while(){\n\t//code\n}\n\nThe keyword while is used to describe a loop that is controlled by a condition. The parentheses enclose the expression that defines the condition. The body defined by curly braces encloses the statements that are executed at each pass of the loop.\n\nwhile(i <= 99){\n\taFunction();\n}\n\nThe execution of a single pass or the whole loop can be aborted by using a continue or a break statement respectively."
+	},
+	"dowhile": {
+		"prefix": "dowhile",
+		"body": [
+			"do{",
+				"\t",
+			"} while($1);"
+		],
+		"description": "do {\n\t//code\n}while();\n\nThe keyword do is used in combination with while to describe a loop that is controlled by a condition. The body defined by curly braces encloses the statements that are executed at each pass of the loop. The parentheses enclose the expression that defines the condition.\n\ndo {\n\taFunction();\n} while(i <= 99);\n\nThe execution of a single pass or the whole loop can be aborted by using a continue or a break statement respectively.\n\nIn contrast to a simple while loop the body is always executed at least one time even if the expression evaluates to false from the beginning."
+	},
+	"continue": {
+		"prefix": "continue",
+		"body": "continue;",
+		"description": "The keyword continue is used inside the body of a loop to abort a single pass of the loop. All statements in the body after the continue statement are ignored and the next iteration of the loop is executed immediately."
+	},
+	"break": {
+		"prefix": "break",
+		"body": "break;",
+		"description": "The keyword break is used inside the body of a loop to abort the whole loop. All statements in the body after the break statement are ignored and the loop is exited without executing any further iteration."
+	},
+
+	///CONDITIONAL EXECUTION
+	"if": {
+		"prefix": "if",
+		"body": [
+			"if($1){",
+				"\t",
+			"}"
+		],
+		"description": "if(){\n\t//code\n}\n\nThe keyword if is used to describe the conditional execution of a statement. The parentheses enclose the expression that defines the condition. The curly braces enclose the statements that are executed if the condition evaluates as true.\n\nif(i != 0){\n\taFunction();\n}\n\nIn contrast to a loop the statements in curly braces are executed only one time or not at all."
+	},
+	"ifelse": {
+		"prefix": "ifelse",
+		"body": [
+			"if($1){",
+				"\t",
+			"} else {",
+				"\t",
+			"}"
+		],
+		"description": "if(){\n\t//code\n} else {\n\t//code\n}\n\nThe keyword else is used in conjunction with the keyword if to describe the alternative execution of a statement. The parentheses enclose the expression that defines the condition. The curly braces after the if statement enclose the statements that are executed if the condition evaluates as true. The curly braces after the else statement enclose the statements that are executed if the condition evaluates as false.\n\nif(i != 0){\n\taFunction();\n} else {\n\tbFunction();\n}\n\nDepending on the condition either the statements in the first curly braces or the statements in the second curly braces are executed."
+	},
+	"ifdef": {
+		"prefix": "ifdef",
+		"body": [
+			"#ifdef GL_ES",
+			"precision mediump float;",
+			"#endif"
+		],
+		"description": "A check defining if GLES is available"
+	},
+
+	///EXIT EXECUTION
+	"return": {
+		"prefix": "return",
+		"body": "return;",
+		"description": "The keyword return is used to define a proper exit for a function. If the function has the return type void no value is passed back to the caller of the function.\n\nreturn aValue;\n\nIf the function has a non-void return type a parameter of the same type has to be included in the statement. The value is passed back to the caller of the function."
+	},
+	"discard": {
+		"prefix": "discard",
+		"body": "discard;",
+		"description": "The keyword discard is used to define an exceptionally exit for a fragment shader. It is used exit the fragment shader immediately and to signal the OpenGL ES 2.0 pipeline that the respective fragment should not be drawn."
+	},
+
+	///FUNCTIONS
+	"function float": {
+		"prefix": "float",
+		"body": [
+			"float ${NAME}(){",
+			"\t",
+			"}"
+		],
+		"description": "A standard function that would need a return of a float value for it to work"
+	},
+	"function void": {
+		"prefix": "void",
+		"body": [
+			"void ${NAME}(){",
+			"\t",
+			"}"
+		],
+		"description": "A standard function that can be named whatever you so wish"
+	},
+
+	///START EXECUTION
+	"function main": {
+		"prefix": "void main",
+		"body": [
+			"void main(){",
+			"\t",
+			"}"
+		],
+		"description": "void main(void){\n\t//code\n}\n\nThe keyword main is used to define the main function of a shader. This function is the entry point for the execution of every vertex and fragment shader. The main function takes no parameters and does not return a value."
+	},
+
+	// Builtin Input Varilables of Vertex Shader
+	"gl_VertexID": {
+		"prefix": "gl_VertexID",
+		"body": "gl_VertexID",
+		"description": "in int gl_VertexID;\n\ngl_VertexID is a vertex language input variable that holds an integer index for the vertex. The index is implicitly generated by glDrawArrays and other commands that do not reference the content of the GL_ELEMENT_ARRAY_BUFFER, or explicitly generated from the content of the GL_ELEMENT_ARRAY_BUFFER by commands such as glDrawElements. For glDrawElements forms that take a basevertex, gl_VertexID will have this value added to the index from the buffer."
+	},
+	"gl_InstanceID": {
+		"prefix": "gl_InstanceID",
+		"body": "gl_InstanceID",
+		"description": "in int gl_InstanceID;\n\ngl_InstanceID is a vertex language input variable that holds the integer index of the current primitive in an instanced draw command such as glDrawArraysInstanced. If the current primitive does not originate from an instanced draw command, the value of gl_InstanceID is zero."
+	},
+
+	// Builtin Output Varilables of Vertex Shader
+	"gl_PerVertex": {
+		"prefix": "gl_PerVertex",
+		"body": "gl_PerVertex",
+		"description": "out gl_PerVertex {\n\nvec4 gl_Position;\n\nfloat gl_PointSize;\n\nfloat gl_ClipDistance[];\n\n};\n\ngl_PerVertex defines an interface block for outputs. The block is defined without an instance name, so that prefixing the names is not required.\n\nThese variables only take on the meanings below if this shader is the last active Vertex Processing stage, and if rasterization is still active (ie: GL_RASTERIZER_DISCARD is not enabled). The text below explains how the Vertex Post-Processing system uses the variables. These variables may not be redeclared with interpolation qualifiers."
+	},
+	"gl_Position": {
+		"prefix": "gl_Position",
+		"body": "gl_Position",
+		"description": "In the vertex a single global instance of the gl_PerVertex named block is available and its gl_Position member is an output that receives the homogeneous vertex position. It may be written at any time during shader execution. The value written to gl_Position will be used by primitive assembly, clipping, culling and other fixed functionality operations, if present, that operate on primitives after vertex processing has occurred."
+	},
+	"gl_PointSize": {
+		"prefix": "gl_PointSize",
+		"body": "gl_PointSize",
+		"description": "In the vertex a single global instance of the gl_PerVertex named block is available and its gl_PointSize member is an output that receives the intended size of the point to be rasterized, in pixels. It may be written at any time during shader execution. If GL_PROGRAM_POINT_SIZE is enabled, gl_PointSize is used to determine the size of rasterized points, otherwise it is ignored by the rasterization stage."
+	},
+	"gl_ClipDistance": {
+		"prefix": "gl_ClipDistance",
+		"body": "gl_ClipDistance",
+		"description": "gl_ClipDistance is a member of the gl_PerVertex named block.\n\nIn fragment shaders, it is intrinsically declared as: in float gl_ClipDistance[];\n\nThe gl_ClipDistance variable provides a forward compatible mechanism for controlling user clipping. The element gl_ClipDistance[i] specifies a clip distance for each user clip plane i. A distance of 0.0 means that the vertex is on the plane, a positive distance means that the vertex is inside the clip plane, and a negative distance means that the point is outside the clip plane. The clip distances will be linearly interpolated across the primitive and the portion of the primitive with interpolated distances less than 0.0 will be clipped.\n\nThe gl_ClipDistance array is initially predeclared as unsized and must be sized by the shader either by redeclaring it with an explicit size, or by indexing it with only integral constant expressions. The array must be sized to include all clip planes that are enabled via the OpenGL API; if the size does not include all enabled planes, results are undefined. The size may be at most gl_MaxClipDistances. The number of varying components consumed by gl_ClipDistance will match the size of the array, no matter how many planes are enabled. The shader must also set all values in gl_ClipDistance that have been enabled via the OpenGL API, or results are undefined. Values written into gl_ClipDistance planes that are not enabled have no effect.\n\nIn the vertex a single global instance of the gl_PerVertex named block is available and its gl_ClipDistance member is an output that receives the clip distances for the current vertex. It may be written at any time during shader execution. The value written to gl_ClipDistance will be used by primitive assembly, clipping, culling and other fixed functionality operations, if present, that operate on primitives after vertex processing has occurred.\n\nThe value of gl_ClipDistance is undefined after the vertex shading stages if the corresponding shader executable does not write to gl_ClipDistance."
+	},
+
+	// Builtin Input Varilables of Fragment Shader
+	"gl_FragCoord": {
+		"prefix": "gl_FragCoord",
+		"body": "gl_FragCoord",
+		"description": "mediump vec4 gl_FragCoord;\n\nbool gl_FrontFacing;\n\nThe built-in variable gl_FragCoord is used by the OpenGL ES 2.0 pipeline to hand over the coordinates of the fragment to the fragment shader. The variable is read-only and the value is assigned by the OpenGL ES 2.0 pipeline.\nThe values of the fragment coordinate vector are given in the window coordinate system."
+	},
+	"gl_FrontFacing": {
+		"prefix": "gl_FrontFacing",
+		"body": "gl_FrontFacing",
+		"description": "The built-in variable gl_FrontFacing is used by the OpenGL ES 2.0 pipeline to hand over the information to the fragment shader if the fragment is part of a front-facing primitive (triangle). The variable is read-only and the value is assigned by the OpenGL ES 2.0 pipeline.\nThe front-facing variable has a boolean value."
+	},
+	"gl_PointCoord": {
+		"prefix": "gl_PointCoord",
+		"body": "gl_PointCoord",
+		"description": "mediump int gl_PointCoord;\n\nThe built-in variable gl_PointCoord is used by the OpenGL ES 2.0 pipeline to hand over the coordinates of a point sprite to the fragment shader. The variable is read-only and the value is calculated and assigned by the OpenGL ES 2.0 pipeline based on the position and radius of the point sprite.\nSide note: A value for this variable is provided by the OpenGL ES 2.0 pipeline only if the rendered primitives are points."
+	},
+	"gl_NumSamples": {
+		"prefix": "gl_NumSamples",
+		"body": "gl_NumSamples",
+		"description": "gl_NumSamples is a fragment language input variable that contains the number of samples in the framebuffer, or 1 if rendering to a non-multisample framebuffer. gl_NumSamples is the sample count of the framebuffer regardless of whether multisample rasterization is enabled or not."
+	},
+	"gl_SampleID": {
+		"prefix": "gl_SampleID",
+		"body": "gl_SampleID",
+		"description": "gl_SampleID is a fragment language input variable that contains the index of the sample currently being processed.\nThis variable is in the range 0 to gl_NumSamples - 1, where gl_NumSamples is the total number of samples in each fragment for the current framebuffer (and thus 1 if rendering to a non-multisample buffer).\nAny static use of this variable in a fragment shader causes the entire shader to be evaluated per-sample rather than per-fragment.\nWhen rendering to a non-multisample buffer, or if multisample rasterization is disabled, gl_SampleID will always be zero. gl_NumSamples is the sample count of the framebuffer regardless of whether multisample rasterization is enabled or not."
+	},
+	"gl_SampleMaskIn": {
+		"prefix": "gl_SampleMaskIn",
+		"body": "gl_SampleMaskIn[]",
+		"description": "gl_SampleMaskIn is a fragment language that indicates the set of samples covered by the primitive generating the fragment during multisample rasterization.\nIt has a sample bit set if and only if the sample is considered covered for this fragment shader invocation.\nBit B of mask gl_SampleMask[M] corresponds to sample 32 * M + B.\nThe array has ceil(s / 32) elements where s is the maximum number of color samples supported by the implementation."
+	},
+	"gl_SamplePosition": {
+		"prefix": "gl_SamplePosition",
+		"body": "gl_SamplePosition",
+		"description": "gl_SamplePosition is a fragment language input variable that contains the location within a fragment of the sample currently being processed.\nThe x and y components of gl_SamplePosition contain the sub-pixel coordinate of the current sample and will have values in the range 0.0 to 1.0.\nThe sub-pixel coordinates of the center of the pixel are always (0.5, 0.5).\nAny static use of gl_SamplePosition causes the entire fragment shader to be evaluated per-sample rather than per-fragment.\nWhen rendering to a non-multisample buffer, or if multisample rasterization is disabled, gl_SamplePosition will be (0.5, 0.5)."
+	},
+
+	// Builtin Output Varilables of Fragment Shader
+	"gl_FragColor": {
+		"prefix": "gl_FragColor",
+		"body": "gl_FragColor",
+		"description": "mediump vec4 gl_FragColor;\n\nThe built-in variable gl_FragColor is used by the fragment shader to hand over the color of the fragment to the OpenGL ES 2.0 pipeline. The variable is pre-declared as shown above that way the variable can be used in the fragment shader for an assignment without prior declaration.\nThe values of the color vector are interpreted in the RGBA color space.\nThe assignment of values to this variable is mandatory for the fragment shader."
+	},
+	"gl_FragDepth": {
+		"prefix": "gl_FragDepth",
+		"body": "gl_FragDepth",
+		"description": "out float gl_FragDepth;\nAvailable only in the fragment language, gl_FragDepth is an output variable that is used to establish the depth value for the current fragment.\nIf depth buffering is enabled and no shader writes to gl_FragDepth, then the fixed function value for depth will be used (this value is contained in the z component of gl_FragCoord) otherwise, the value written to gl_FragDepth is used.\nIf a shader statically assigns to gl_FragDepth, then the value of the fragment's depth may be undefined for executions of the shader that don't take that path.\nThat is, if the set of linked fragment shaders statically contain a write to gl_FragDepth, then it is responsible for always writing it."
+	},
+	"gl_SampleMask": {
+		"prefix": "gl_SampleMask",
+		"body": "gl_SampleMask[]",
+		"description": "out int gl_SampleMask[];\ngl_SampleMask is a fragment language output array that may be used to set the sample mask for the fragment being processed.\nCoverage for the current fragment will become the logical AND of the coverage mask and the output gl_SampleMask.\nThat is, setting a bit in gl_SampleMask to zero will cause the corresponding sample to be considered uncovered for the purposes of multisample fragment operations.\nHowever, setting sample mask bits back to one will never enable samples not covered by the original primitive.\nBit B of mask gl_SampleMask[M] corresponds to sample 32 * M + B.\nThis array must be sized in the fragment shader either implicitly or explicitly to be the same size as the implementation-dependent maximum sample-mask (as an array of 32-bit elements), determined by the maximum number of samples.\nIf the fragment shader statically assigns a value to gl_SampleMask, the sample mask will be undefined for any array elements of any fragment shader invocation that fails to assign a value.\nIf a shader does not statically assign a value to gl_SampleMask, the sample mask has no effect on the processing of a fragment.\nIf the fragment shader is being evaluated at any frequency other than per-fragment, bits within the sample mask not corresponding to the current fragment shader invocation are ignored."
+	},
+
+	///BUILT-IN CONSTANTS (FRAGMENT-SHADER)
+	"gl_MaxTextureImageUnits": {
+		"prefix": "gl_MaxTextureImageUnits",
+		"body": "gl_MaxTextureImageUnits",
+		"description": "const mediump int gl_MaxTextureImageUnits >= 8\n\nThe built-in constant gl_MaxTextureImageUnits provides the maximum number of texture units that can be used by the fragment shader. The value of this variable is dependent on the OpenGL ES 2.0 implementation but has to be at least 8."
+	},
+	"gl_MaxFragmentUniformVectors": {
+		"prefix": "gl_MaxFragmentUniformVectors",
+		"body": "gl_MaxFragmentUniformVectors",
+		"description": "const mediump int gl_MaxFragmentUniformVectors >= 16\n\nThe built-in constant gl_MaxFragmentUniformVectors provides the maximum number of uniform vectors that can be used by the fragment shader. The value of this variable is dependent on the OpenGL ES 2.0 implementation but has to be at least 16."
+	},
+	"gl_MaxDrawBuffers": {
+		"prefix": "gl_MaxDrawBuffers",
+		"body": "gl_MaxDrawBuffers",
+		"description": "const mediump int gl_MaxDrawBuffers = 1\n\nThe built-in constant gl_MaxDrawBuffers provides the maximum number of the available draw buffers. The value of this variable is 1 for all OpenGL ES 2.0 implementations."
+	},
+
+	// BUILTIN FUNCTIONS
+	"sin": {
+		"prefix": "sin",
+		"body":	"sin($1)",
+		"description": "float sin(float angle)\nvec2 sin(vec2 angle)\nvec3 sin(vec3 angle)\nvec4 sin(vec4 angle)\n\nThe sin function returns the sine of an angle in radians. The input parameter can be a floating scalar or a float vector. In case of a float vector the sine is calculated separately for every component."
+	},
+	"sinh": {
+		"prefix": "sinh",
+		"body":	"sinh($1)",
+		"description": "return the hyperbolic sine of the parameter"
+	},
+	"asin": {
+		"prefix": "asin",
+		"body":	"asin($1)",
+		"description": "float asin(float x)\nvec2 asin(vec2 x)\nvec3 asin(vec3 x)\nvec4 asin(vec4 x)\n\nThe asin function returns the arcsine of an angle in radians. It is the inverse function of sine. The input parameter can be a floating scalar or a float vector. In case of a float vector the arcsine is calculated separately for every component."
+	},
+	"asinh": {
+		"prefix": "asinh",
+		"body":	"asinh($1)",
+		"description": "return the arc hyperbolic sine of the parameter - inverse of sinh"
+	},
+	"cos": {
+		"prefix": "cos",
+		"body": "cos($1)",
+		"description": "float cos(float angle)\nvec2 cos(vec2 angle)\nvec3 cos(vec3 angle)\nvec4 cos(vec4 angle)\n\nThe cos function returns the cosine of an angle in radians. The input parameter can be a floating scalar or a float vector. In case of a float vector the cosine is calculated separately for every component."
+	},
+	"cosh": {
+		"prefix": "cosh",
+		"body": "cosh($1)",
+		"description": "return the hyperbolic cosine of the parameter"
+	},
+	"acos": {
+		"prefix": "acos",
+		"body": "acos($1)",
+		"description": "float acos(float x)\nvec2 acos(vec2 x)\nvec3 acos(vec3 x)\nvec4 acos(vec4 x)\n\nThe acos function returns the arccosine of an angle in radians. It is the inverse function of cosine. The input parameter can be a floating scalar or a float vector. In case of a float vector the arccosine is calculated separately for every component."
+	},
+	"acosh": {
+		"prefix": "acosh",
+		"body": "acosh($1)",
+		"description": "return the arc hyperbolic cosine of the parameter"
+	},
+	"tan": {
+		"prefix": "tan",
+		"body": "tan($1)",
+		"description": "float tan(float angle)\nvec2 tan(vec2 angle)\nvec3 tan(vec3 angle)\nvec4 tan(vec4 angle)\n\nThe tan function returns the tangent of an angle in radians. The input parameter can be a floating scalar or a float vector. In case of a float vector the tangent is calculated separately for every component."
+	},
+	"tanh": {
+		"prefix": "tanh",
+		"body": "tanh($1)",
+		"description": "return the hyperbolic tangent of the parameter"
+	},
+	"atan": {
+		"prefix": "atan",
+		"body": "atan($1, $2)",
+		"description": "float atan(float y_over_x)\nvec2 atan(vec2 y_over_x)\nvec3 atan(vec3 y_over_x)\nvec4 atan(vec4 y_over_x)\n\nThe atan function returns the arctangent of an angle in radians. It is the inverse function of tangent. The input parameter can be a floating scalar or a float vector. In case of a float vector the arctangent is calculated separately for every component.\n\nfloat atan(float y, float x)\nvec2 atan(vec2 y, vec2 x)\nvec3 atan(vec3 y, vec3 x)\nvec4 atan(vec4 y, vec4 x)\n\nThere is also a two-argument variation of the atan function (in other programming languages often called atan2). For a point with Cartesian coordinates (x, y) the function returns the angle θ of the same point with polar coordinates (r, θ)."
+	},
+	"atanh": {
+		"prefix": "atanh",
+		"body": "atanh($1)",
+		"description": "genType atanh(genType x);\n\nreturn the arc hyperbolic tangent of the parameter"
+	},
+
+	"radians": {
+		"prefix": "radians",
+		"body": "radians($1)",
+		"description": "float radians(float degrees)\nvec2 radians(vec2 degrees)\nvec3 radians(vec3 degrees)\nvec4 radians(vec4 degrees)\n\nThe radians function converts degrees to radians. The input parameter can be a floating scalar or a float vector. In case of a float vector all components are converted from degrees to radians separately."
+	},
+	"degrees": {
+		"prefix": "degrees",
+		"body": "degrees($1)",
+		"description": "float degrees(float radians)\nvec2 degrees(vec2 radians)\nvec3 degrees(vec3 radians)\nvec4 degrees(vec4 radians)\n\nThe degrees function converts radians to degrees. The input parameter can be a floating scalar or a float vector. In case of a float vector every component is converted from radians to degrees separately."
+	},
+
+	// BOOLEAN
+	"all": {
+		"prefix": "all",
+		"body": "all($1)",
+		"description": "bool all(bvec x)\n\nCheck whether all elements of a boolean vector are true"
+	},
+	"any": {
+		"prefix": "any",
+		"body": "any($1)",
+		"description": "bool any(bvec x);\n\ncheck whether any element of a boolean vector is true"
+	},
+
+	"pow": {
+		"prefix": "pow",
+		"body": "pow($1, $2)",
+		"description": "float pow(float x, float y)\nvec2 pow(vec2 x, vec2 y)\nvec3 pow(vec3 x, vec3 y)\nvec4 pow(vec4 x, vec4 y)\n\nThe power function returns x raised to the power of y. The input parameters can be floating scalars or float vectors. In case of float vectors the operation is done component-wise."
+	},
+	"exp": {
+		"prefix": "exp",
+		"body": "exp($1);",
+		"description": "float exp(float x)\nvec2 exp(vec2 x)\nvec3 exp(vec3 x)\nvec4 exp(vec4 x)\n\nThe exp function returns the constant e raised to the power of x. The input parameter can be a floating scalar or a float vector. In case of a float vector the operation is done component-wise."
+	},
+	"exp2": {
+		"prefix": "exp2",
+		"body": "exp2($1)",
+		"description": "float exp2(float x)\nvec2 exp2(vec2 x)\nvec3 exp2(vec3 x)\nvec4 exp2(vec4 x)\n\nThe exp2 function returns 2 raised to the power of x. The input parameter can be a floating scalar or a float vector. In case of a float vector the operation is done component-wise."
+	},
+	"ldexp": {
+		"prefix": "ldexp",
+		"body": "ldexp($1, $2)",
+		"description": "assemble a floating point number from a value and exponent"
+	},
+	"frexp": {
+		"prefix": "frexp",
+		"body": "frexp($1, $2)",
+		"description": "split a floating point number"
+	},
+	"log": {
+		"prefix": "log",
+		"body": "log($1)",
+		"description": "float log(float x)\nvec2 log(vec2 x)\nvec3 log(vec3 x)\nvec4 log(vec4 x)\n\nThe log function returns the power to which the constant e has to be raised to produce x. The input parameter can be a floating scalar or a float vector. In case of a float vector the operation is done component-wise."
+	},
+	"log2": {
+		"prefix": "log2",
+		"body": "log2($1)",
+		"description": "float log2(float x)\nvec2 log2(vec2 x)\nvec3 log2(vec3 x)\nvec4 log2(vec4 x)\n\nThe log2 function returns the power to which 2 has to be raised to produce x. The input parameter can be a floating scalar or a float vector. In case of a float vector the operation is done component-wise."
+	},
+	"sqrt": {
+		"prefix": "sqrt",
+		"body": "sqrt($1)",
+		"description": "float sqrt(float x)\nvec2 sqrt(vec2 x)\nvec3 sqrt(vec3 x)\nvec4 sqrt(vec4 x)\n\nThe sqrt function returns the square root of x. The input parameter can be a floating scalar or a float vector. In case of a float vector the operation is done component-wise."
+	},
+	"inversesqrt": {
+		"prefix": "inversesqrt",
+		"body": "inversesqrt($1)",
+		"description": "float inversesqrt(float x)\nvec2 inversesqrt(vec2 x)\nvec3 inversesqrt(vec3 x)\nvec4 inversesqrt(vec4 x)\n\nThe inversesqrt function returns the inverse square root of x, i.e. the reciprocal of the square root. The input parameter can be a floating scalar or a float vector. In case of a float vector the operation is done component-wise."
+	},
+
+	"abs": {
+		"prefix": "abs",
+		"body": "abs($1)",
+		"description": "float abs(float x)\nvec2 abs(vec2 x)\nvec3 abs(vec3 x)\nvec4 abs(vec4 x)\n\nThe abs function returns the absolute value of x, i.e. x when x is positive or zero and -x for negative x. The input parameter can be a floating scalar or a float vector. In case of a float vector the operation is done component-wise."
+	},
+	"ceil": {
+		"prefix": "ceil",
+		"body": "ceil($1)",
+		"description": "float ceil(float x)\nvec2 ceil(vec2 x)\nvec3 ceil(vec3 x)\nvec4 ceil(vec4 x)\n\nThe ceiling function returns the smallest number that is larger or equal to x. The input parameter can be a floating scalar or a float vector. In case of a float vector the operation is done component-wise.\n\nSide note: The return value is of type floating scalar or float vector although the result of the operation is an integer."
+	},
+	"clamp": {
+		"prefix": "clamp",
+		"body": "clamp($1, $2, $4)",
+		"description": "float clamp(float x, float minVal, float maxVal)\nvec2 clamp(vec2 x, vec2 minVal, vec2 maxVal)\nvec3 clamp(vec3 x, vec3 minVal, vec3 maxVal)\nvec4 clamp(vec4 x, vec4 minVal, vec4 maxVal)\n\nThe clamp function returns x if it is larger than minVal and smaller than maxVal. In case x is smaller than minVal, minVal is returned. If x is larger than maxVal, maxVal is returned. The input parameters can be floating scalars or float vectors. In case of float vectors the operation is done component-wise.\n\nfloat clamp(float x, float minVal, float maxVal)\nvec2 clamp(vec2 x, float minVal, float maxVal)\nvec3 clamp(vec3 x, float minVal, float maxVal)\nvec4 clamp(vec4 x, flfloat minVal, float maxVal)\n\nThere is also a variation of the clamp function where the second and third parameters are always a floating scalars."
+	},
+	"floor": {
+		"prefix": "floor",
+		"body": "floor($1)",
+		"description": "float floor(float x)\nvec2 floor(vec2 x)\nvec3 floor(vec3 x)\nvec4 floor(vec4 x)\n\nThe floor function returns the largest integer number that is smaller or equal to x. The input parameter can be a floating scalar or a float vector. In case of a float vector the operation is done component-wise.\n\nSide note: The return value is of type floating scalar or float vector although the result of the operation is an integer."
+	},
+	"equal": {
+		"prefix": "equal",
+		"body": "equal($1, $2)",
+		"description": "perform a component-wise equal-to comparison of two vectors"
+	},
+	"fract": {
+		"prefix": "fract",
+		"body": "fract($1)",
+		"description": "float fract(float x)\nvec2 fract(vec2 x)\nvec3 fract(vec3 x)\nvec4 fract(vec4 x)\n\nThe fract function returns the fractional part of x, i.e. x minus floor(x). The input parameter can be a floating scalar or a float vector. In case of a float vector the operation is done component-wise."
+	},
+	"min": {
+		"prefix": "min",
+		"body": "min($1, $2)",
+		"description": "float min(float x, float y)\nvec2 min(vec2 x, vec2 y)\nvec3 min(vec3 x, vec3 y)\nvec4 min(vec4 x, vec4 y)\n\nThe min function returns the smaller of the two arguments. The input parameters can be floating scalars or float vectors. In case of float vectors the operation is done component-wise.\nfloat min(float x, float y)\nvec2 min(vec2 x, float y)\nvec3 min(vec3 x, float y)\nvec4 min(vec4 x, float y)\n\nThere is also a variation of the min function where the second parameter is always a floating scalar."
+	},
+	"max": {
+		"prefix": "max",
+		"body": "max($1, $2)",
+		"description": "float max(float x, float y)\nvec2 max(vec2 x, vec2 y)\nvec3 max(vec3 x, vec3 y)\nvec4 max(vec4 x, vec4 y)\n\nThe max function returns the larger of the two arguments. The input parameters can be floating scalars or float vectors. In case of float vectors the operation is done component-wise.\n\nfloat max(float x, float y)\nvec2 max(vec2 x, float y)\nvec3 max(vec3 x, float y)\nvec4 max(vec4 x, float y)\n\nThere is also a variation of the max function where the second parameter is always a floating scalar."
+	},
+	"mix": {
+		"prefix": "mix",
+		"body": "mix($1, $2, $4)",
+		"description": "float mix(float x, float y, float a)\nvec2 mix(vec2 x, vec2 y, vec2 a)\nvec3 mix(vec3 x, vec3 y, vec3 a)\nvec4 mix(vec4 x, vec4 y, vec4 a)\n\nThe mix function returns the linear blend of x and y, i.e. the product of x and (1 - a) plus the product of y and a. The input parameters can be floating scalars or float vectors. In case of float vectors the operation is done component-wise.\n\nfloat mix(float x, float y, float a)\nvec2 mix(vec2 x, vec2 y, float a)\nvec3 mix(vec3 x, vec3 y, float a)\nvec4 mix(vec4 x, vec4 y, float a)\n\nThere is also a variation of the mix function where the third parameter is always a floating scalar."
+	},
+	"mod": {
+		"prefix": "mod",
+		"body": "mod($1, $2)",
+		"description": "float mod(float x, float y)\nvec2 mod(vec2 x, vec2 y)\nvec3 mod(vec3 x, vec3 y)\nvec4 mod(vec4 x, vec4 y)\n\nThe mod function returns x minus the product of y and floor(x/y). The input parameters can be floating scalars or float vectors. In case of float vectors the operation is done component-wise.\n\nSide note: If x and y are integers the return value is the remainder of the division of x by y as expected.\n\nfloat mod(float x, float y)\nvec2 mod(vec2 x, float y)\nvec3 mod(vec3 x, float y)\nvec4 mod(vec4 x, float y)\n\nThere is also a variation of the mod function where the second parameter is always a floating scalar."
+	},
+	"modf": {
+		"prefix": "modf",
+		"body": "modf($1, $2)",
+		"description": "separate a value into its integer and fractional components"
+	},
+	"sign": {
+		"prefix": "sign",
+		"body": "sign($1)",
+		"description": "float sign(float x)\nvec2 sign(vec2 x)\nvec3 sign(vec3 x)\nvec4 sign(vec4 x)\n\nThe sign function returns 1.0 when x is positive, 0.0 when x is zero and -1.0 when x is negative. The input parameter can be a floating scalar or a float vector. In case of a float vector the operation is done component-wise."
+	},
+	"step": {
+		"prefix": "step",
+		"body": "step($1, $2)",
+		"description": "float step(float edge, float x)\nvec2 step(vec2 edge, vec2 x)\nvec3 step(vec3 edge, vec3 x)\nvec4 step(vec4 edge, vec4 x)\n\nThe step function returns 0.0 if x is smaller then edge and otherwise 1.0. The input parameters can be floating scalars or float vectors. In case of float vectors the operation is done component-wise.\n\nfloat step(float edge, float x)\nvec2 step(float edge, vec2 x)\nvec3 step(float edge, vec3 x)\nvec4 step(float edge, vec4 x)\n\nThere is also a variation of the step function where the edge parameter is always a floating scalar."
+	},
+	"smoothstep": {
+		"prefix": "smoothstep",
+		"body": "smoothstep($1, $2, $4)",
+		"description": "float smoothstep(float edge0, float edge1, float x)\nvec2 smoothstep(vec2 edge0, vec2 edge1, vec2 x)\nvec3 smoothstep(vec3 edge0, vec3 edge1, vec3 x)\nvec4 smoothstep(vec4 edge0, vec4 edge1, vec4 x)\n\nThe smoothstep function returns 0.0 if x is smaller then edge0 and 1.0 if x is larger than edge1. Otherwise the return value is interpolated between 0.0 and 1.0 using Hermite polynomials. The input parameters can be floating scalars or float vectors. In case of float vectors the operation is done component-wise.\n\nfloat smoothstep(float edge0, float edge1, float x)\nvec2 smoothstep(float edge0, float edge1, vec2 x)\nvec3 smoothstep(float edge0, float edge1, vec3 x)\nvec4 smoothstep(float edge0, float edge1, vec4 x)\n\nThere is also a variation of the smoothstep function where the edge0 and edge1 parameters are always floating scalars."
+	},
+	"cross": {
+		"prefix": "cross",
+		"body": "cross($1, $2, $4)",
+		"description": "vec3 cross(vec3 x, vec3 y)\n\nThe cross function returns the cross product of the two input parameters, i.e. a vector that is perpendicular to the plane containing x and y and has a magnitude that is equal to the area of the parallelogram that x and y span. The input parameters can only be 3-component floating vectors. The cross product is equivalent to the product of the length of the vectors times the sinus of the(smaller) angle between x and y."
+	},
+	"distance": {
+		"prefix": "distance",
+		"body": "distance($1, $2)",
+		"description": "float distance(float p0, float p1)\nfloat distance(vec2 p0, vec2 p1)\nfloat distance(vec3 p0, vec3 p1)\nfloat distance(vec4 p0, vec4 p1)\n\nThe distance function returns the distance between two points. The distance of two points is the length of the vector d = p0 - p1, that starts at p1 and points to p0. The input parameters can be floating scalars or float vectors. In case of floating scalars the distance function is trivial and returns the absolute value of d."
+	},
+	"dot": {
+		"prefix": "dot",
+		"body": "dot($1, $2)",
+		"description": "float dot(float x, float y)\nfloat dot(vec2 x, vec2 y)\nfloat dot(vec3 x, vec3 y)\nfloat dot(vec4 x, vec4 y)\n\nThe dot function returns the dot product of the two input parameters, i.e. the sum of the component-wise products. If x and y are the same the square root of the dot product is equivalent to the length of the vector. The input parameters can be floating scalars or float vectors. In case of floating scalars the dot function is trivial and returns the product of x and y."
+	},
+	"faceforward": {
+		"prefix": "faceforward",
+		"body": "faceforward($1, $2, $4)",
+		"description": "float faceforward(float N, float I, float Nref)\nvec2 faceforward(vec2 N, vec2 I, vec2 Nref)\nvec3 faceforward(vec3 N, vec3 I, vec3 Nref)\nvec4 faceforward(vec4 N, vec4 I, vec4 Nref)\n\nThe faceforward function returns a vector that points in the same direction as a reference vector. The function has three input parameters of the type floating scalar or float vector: N, the vector to orient, I, the incident vector, and Nref, the reference vector. If the dot product of I and Nref is smaller than zero the return value is N. Otherwise -N is returned."
+	},
+	"length": {
+		"prefix": "length",
+		"body": "length($1)",
+		"description": "float length(float x)\nfloat length(vec2 x)\nfloat length(vec3 x)\nfloat length(vec4 x)\n\nThe length function returns the length of a vector defined by the Euclidean norm, i.e. the square root of the sum of the squared components. The input parameter can be a floating scalar or a float vector. In case of a floating scalar the length function is trivial and returns the absolute value."
+	},
+	"normalize": {
+		"prefix": "normalize",
+		"body": "normalize($1)",
+		"description": "float normalize(float x)\nvec2 normalize(vec2 x)\nvec3 normalize(vec3 x)\nvec4 normalize(vec4 x)\n\nThe normalize function returns a vector with length 1.0 that is parallel to x, i.e. x divided by its length. The input parameter can be a floating scalar or a float vector. In case of a floating scalar the normalize function is trivial and returns 1.0."
+	},
+	"reflect": {
+		"prefix": "reflect",
+		"body": "reflect($1, $2)",
+		"description": "float reflect(float I, float N)\nvec2 reflect(vec2 I, vec2 N)\nvec3 reflect(vec3 I, vec3 N)\nvec4 reflect(vec4 I, vec4 N)\n\nThe reflect function returns a vector that points in the direction of reflection. The function has two input parameters of the type floating scalar or float vector: I, the incident vector, and N, the normal vector of the reflecting surface.\n\nSide note: To obtain the desired result the vector N has to be normalized. The reflection vector always has the same length as the incident vector. From this it follows that the reflection vector is normalized if N and I are both normalized."
+	},
+	"refract": {
+		"prefix": "refract",
+		"body": "refract($1, $2, $4)",
+		"description": "float refract(float I, float N, float eta)\nvec2 refract(vec2 I, vec2 N, float eta)\nvec3 refract(vec3 I, vec3 N, float eta)\nvec4 refract(vec4 I, vec4 N, float eta)\n\nThe refract function returns a vector that points in the direction of refraction. The function has two input parameters of the type floating scalar or float vector and one input parameter of the type floating scalar: I, the incident vector, N, the normal vector of the refracting surface, and eta, the ratio of indices of refraction.\n\nSide note: To obtain the desired result the vectors I and N have to be normalized."
+	},
+	"trunc": {
+		"prefix": "trunc",
+		"body": "trunc($1)",
+		"description": "find the nearest integer less than or equal to the parameter"
+	},
+	"round": {
+		"prefix": "round",
+		"body": "round($1)",
+		"description": "find the nearest integer less than or equal to the parameter - The fraction 0.5 will round in a direction chosen by the implementation, presumably the direction that is fastest. This includes the possibility that round(x) returns the same value as roundEven(x) for all values of x"
+	},
+	"roundEven": {
+		"prefix": "roundEven",
+		"body": "roundEven($1)",
+		"description": "find the nearest even integer to the parameter - The fractional part of 0.5 will round toward the nearest even integer. For example, both 3.5 and 4.5 will round to 4.0."
+	},
+
+	// Bit Operation
+	"bitCount": {
+		"prefix": "bitCount",
+		"body": "bitCount(${value})",
+		"description": "bitCount returns the number of bits that are set to 1 in the binary representation of value."
+	},
+	"bitfieldExtract": {
+		"prefix": "bitfieldExtract",
+		"body": "bitfieldExtract(${value}, ${offset}, ${bits})",
+		"description": "bitfieldExtract extracts a subset of the bits of value and returns it in the least significant bits of the result.\nThe range of bits extracted is [offset, offset + bits - 1].\nFor unsigned data types, the most significant bits of the result will be set to zero.\nFor signed data types, the most significant bits will be set to the value of bit offset + base - 1 (i.e., it is sign extended to the width of the return type).\nIf bits is zero, the result will be zero.\nThe result will be undefined if offset or bits is negative, or if the sum of offset and bits is greater than the number of bits used to store the operand."
+	},
+	"bitfieldInsert": {
+		"prefix": "bitfieldInsert",
+		"body": "bitfieldInsert(${base}, ${insert}, ${offset}, ${bits})",
+		"description": "bitfieldInsert inserts the bits least significant 'bits' of 'insert' into 'base' at offset 'offset'. The returned value will have bits [offset, offset + bits + 1] taken from [0, bits - 1] of 'insert' and all other bits taken directly from the corresponding bits of 'base'. If 'bits' is zero, the result will simply be the original value of 'base'. The result will be undefined if 'offset' or 'bits' is negative, or if the sum of 'offset' and 'bits' is greater than the number of bits used to store the operand."
+	},
+	"bitfieldReverse": {
+		"prefix": "bitfieldReverse",
+		"body": "bitfieldReverse(${value})",
+		"description": "bitfieldReverse returns the reversal of the bits of 'value'.\nThe bit numbered n will be taken from bit ('bits' - 1) - n of 'value', where 'bits' is the total number of bits used to represent 'value'."
+	},
+	"findLSB": {
+		"prefix": "findLSB",
+		"body": "findLSB(${value})",
+		"description": "findLSB returns the bit number of the least significant bit that is set to 1 in the binary representation of 'value'.\nIf 'value' is zero, -1 will be returned."
+	},
+	"findMSB": {
+		"prefix": "findMSB",
+		"body": "findMSB(${value})",
+		"description": "findMSB returns the bit number of the most significant bit that is set to 1 in the binary representation of 'value'. For positive integers, the result will be the bit number of the most significant bit that is set to 1. For negative integers, the result will be the bit number of the most significant bit set to 0. For a 'value' of zero or negative 1, -1 will be returned."
+	},
+	"floatBitsToInt": {
+		"prefix": "floatBitsToInt",
+		"body": "floatBitsToInt($1)",
+		"description": "floatBitsToInt and floatBitsToUint return the encoding of their floating-point parameters as int or uint, respectively. The floating-point bit-level representation is preserved."
+	},
+	"floatBitsToUint": {
+		"prefix": "floatBitsToUint",
+		"body": "floatBitsToUint($1)",
+		"description": "floatBitsToInt and floatBitsToUint return the encoding of their floating-point parameters as int or uint, respectively. The floating-point bit-level representation is preserved."
+	},
+	"intBitsToFloat": {
+		"prefix": "intBitsToFloat",
+		"body": "intBitsToFloat($1)",
+		"description": "intBitsToFloat and uintBitsToFloat return the encoding passed in parameter x as a floating-point value.\nIf the encoding of a NaN is passed in x, it will not signal and the resulting value will be undefined.\nIf the encoding of a floating point infinity is passed in parameter x, the resulting floating-point value is the corresponding (positive or negative) floating point infinity."
+	},
+	"uintBitsToFloat": {
+		"prefix": "uintBitsToFloat",
+		"body": "uintBitsToFloat($1)",
+		"description": "intBitsToFloat and uintBitsToFloat return the encoding passed in parameter x as a floating-point value.\nIf the encoding of a NaN is passed in x, it will not signal and the resulting value will be undefined.\nIf the encoding of a floating point infinity is passed in parameter x, the resulting floating-point value is the corresponding (positive or negative) floating point infinity."
+	},
+
+	// Matrix Operation
+	"determinant": {
+		"prefix": "determinant",
+		"body": "determinant($1)",
+		"description": "returns the determinant of the matrix m."
+	},
+	"transpose": {
+		"prefix": "transpose",
+		"body": "transpose($1)",
+		"description": "returns the transpose of the matrix m."
+	},
+	"inverse": {
+		"prefix": "inverse",
+		"body": "inverse($1)",
+		"description": "returns the inverse of the matrix m. The values in the returned matrix are undefined if m is singular or poorly-conditioned (nearly singular)."
+	},
+	"matrixCompMult": {
+		"prefix": "matrixCompMult",
+		"body": "matrixCompMult($1)",
+		"description": "matrixCompMult performs a component-wise multiplication of two matrices, yielding a result matrix where each component, result[i][j] is computed as the scalar product of x[i][j] and y[i][j]."
+	},
+
+	// Number Compare Operation
+	"isinf": {
+		"prefix": "isinf",
+		"body": "isinf($1)",
+		"description": "For each element i of the result, isinf returns true if x[i] is posititve or negative floating point infinity and false otherwise."
+	},
+	"isnan": {
+		"prefix": "isnan",
+		"body": "isnan($1)",
+		"description": "For each element i of the result, isnan returns true if x[i] is posititve or negative floating point NaN (Not a Number) and false otherwise."
+	},
+	"not": {
+		"prefix": "not",
+		"body": "not($1)",
+		"description": "bvec not(bvec x);\nnot logically inverts the boolean vector x. It returns a new boolean vector for which each element i is computed as !x[i]."
+	},
+	"notEqual": {
+		"prefix": "notEqual",
+		"body": "notEqual(${x}, ${y})",
+		"description": "notEqual returns a boolean vector in which each element i is computed as x[i] != y[i]."
+	},
+	"lessThan": {
+		"prefix": "lessThan",
+		"body": "lessThan(${x}, ${y})",
+		"description": "lessThan returns a boolean vector in which each element i is computed as x[i] < y[i]."
+	},
+	"lessThanEqual": {
+		"prefix": "lessThanEqual",
+		"body": "lessThanEqual(${x}, ${y})",
+		"description": "lessThanEqual returns a boolean vector in which each element i is computed as x[i] ≤ y[i]."
+	},
+	"greaterThan": {
+		"prefix": "greaterThan",
+		"body": "greaterThan(${x}, ${y})",
+		"description": "greaterThan returns a boolean vector in which each element i is computed as x[i] > y[i]."
+	},
+	"greaterThanEqual": {
+		"prefix": "greaterThanEqual",
+		"body": "greaterThanEqual(${x}, ${y})",
+		"description": "greaterThanEqual returns a boolean vector in which each element i is computed as x[i] ≥ y[i]."
+	},
+	"imulExtended": {
+		"prefix": "imulExtended",
+		"body": "imulExtended(${x}, ${y})",
+		"description": "void imulExtended(genIType x, genIType y, out genIType msb, out genIType lsb);\numulExtended and imulExtended perform multiplication of the two 32-bit integer quantities x and y, producing a 64-bit integer result. The 32 least significant bits of this product are returned in lsb and the 32 most significant bits are returned in msb. umulExtended and imulExtended perform unsigned and signed multiplication, respectively."
+	},
+	"umulExtended": {
+		"prefix": "umulExtended",
+		"body": "umulExtended(${x}, ${y})",
+		"description": "void umulExtended(genUType x, genUType y, out genUType msb, out genUType lsb);\numulExtended and imulExtended perform multiplication of the two 32-bit integer quantities x and y, producing a 64-bit integer result. The 32 least significant bits of this product are returned in lsb and the 32 most significant bits are returned in msb. umulExtended and imulExtended perform unsigned and signed multiplication, respectively."
+	},
+	"interpolateAtCentroid": {
+		"prefix": "interpolateAtCentroid",
+		"body": "interpolateAtCentroid($1)",
+		"description": "interpolateAtCentroid returns the value of the input varying 'interpolant' sampled at a location inside both the pixel and the primitive being processed. The value obtained would be the value assigned to the input variable if declared with the 'centroid' qualifier."
+	},
+	"interpolateAtOffset": {
+		"prefix": "interpolateAtOffset",
+		"body": "interpolateAtOffset(${interpolant}, ${offset})",
+		"description": "interpolateAtOffset returns the value of the input varying 'interpolant' sampled at an offset from the center of the pixel specified by 'offset'. The two floating-point components of 'offset' give the offset in pixels in the x and y directions from the center of the pixel, respectively. An offset of (0, 0) identifies the center of the pixel. The range and granularity of offsets supported by this function is implementation-dependent."
+	},
+	"interpolateAtSample": {
+		"prefix": "interpolateAtSample",
+		"body": "interpolateAtSample(${interpolant}, ${sample})",
+		"description": "interpolateAtSample returns the value of the input varying 'interpolant' sampled at the location of sample number 'sample'. If multisample buffers are not available, the input varying will be evaluated at the center of the pixel. If sample 'sample' does not exist, the position used to interpolate the input varying is undefined."
+	},
+
+	// Pack and Unpack
+	"packUnorm2x16": {
+		"prefix": "packUnorm2x16",
+		"body": "packUnorm2x16($1)",
+		"description": "uint packUnorm2x16(vec2 v);\n\npackUnorm2x16, packUnorm4x8 and packSnorm4x8 convert each component of the normalized floating-ponit value v into 8- or 16-bit integer values and then packs the results into a 32-bit unsigned intgeter.\nThe conversion for component c of v to fixed-point is performed as follows:\n\tpackUnorm2x16: round(clamp(c, 0.0, 1.0) * 65535.0)\n\tpackUnorm4x8: round(clamp(c, 0.0, 1.0) * 255.0)\n\tpackSnorm4x8: round(clamp(c, -1.0, 1.0) * 127.0)\n\nThe first component of the vector will be written to the least significant bits of the output; the last component will be written to the most significant bits."
+	},
+	"packUnorm4x8": {
+		"prefix": "packUnorm4x8",
+		"body": "packUnorm4x8($1)",
+		"description": "uint packUnorm4x8(vec4 v);"
+	},
+	"packSnorm4x8": {
+		"prefix": "packSnorm4x8",
+		"body": "packSnorm4x8($1)",
+		"description": "uint packSnorm4x8(vec4 v);"
+	},
+	"packDouble2x32": {
+		"prefix": "packDouble2x32",
+		"body": "packDouble2x32($1)",
+		"description": "double packDouble2x32(uvec2 v);\n\npackDouble2x32 packs the component of parameter v into a 64-bit value. If an IEEE-754 infinity or NaN is created, it will not signal and the resulting floating-point value is undefined. Otherwise, the bit-level representation of v is preserved. The first vector component (v[0]) specifies the 32 least significant bits of the result; the second component (v[1]) specifies the 32 most significant bits."
+	},
+	"unpackUnorm2x16": {
+		"prefix": "unpackUnorm2x16",
+		"body": "unpackUnorm2x16($1)",
+		"description": "vec2 unpackUnorm2x16(uint p);unpackUnorm2x16, unpackUnorm4x8 and unpackSnorm4x8 unpack single 32-bit unsigned integers, specified in the parameter p into a pair of 16-bit unsigned integers, four 8-bit unsigned integers or four 8-bit signed integers. Then, each component is converted to a normalized floating-point value to generate the returned two- or four-component vector.\nThe conversion for unpacked fixed point value f to floating-point is performed as follows:\n\tpackUnorm2x16: f / 65535.0\n\tpackUnorm4x8: f / 255.0\n\tpackSnorm4x8: clamp(f / 127.0, -1.0, 1.0)\n\nThe first component of the returned vector will be extracted from the least significant bits of the input; the last component will be extracted from the most significant bits."
+	},
+	"unpackUnorm4x8": {
+		"prefix": "unpackUnorm4x8",
+		"body": "unpackUnorm4x8($1)",
+		"description": "vec4 unpackUnorm4x8(uint p);"
+	},
+	"unpackSnorm4x8": {
+		"prefix": "unpackSnorm4x8",
+		"body": "unpackSnorm4x8($1)",
+		"description": "vec4 unpackSnorm4x8(uint p);"
+	},
+	"unpackDouble2x32": {
+		"prefix": "unpackDouble2x32",
+		"body": "unpackDouble2x32($1)",
+		"description": "uvec2 unpackDouble2x32(double d);\n\nunpackDouble2x32 returns a two-component unsigned integer vector representation of d. The bit-level representation of d is preserved. The first component of the returned vector contains the 32 least significant bits of the double; the second component consists the 32 most significant bits."
+	},
+
+	// Texture Operation
+	"texture": {
+		"prefix": "texture",
+		"body": "texture(${sampler}, ${p})",
+		"description": "texture samples texels from the texture bound to sampler at texture coordinate P. An optional bias, specified in bias is included in the level-of-detail computation that is used to choose mipmap(s) from which to sample.\nFor shadow forms, when compare is present, it is used as Dsub and the array layer is specified in P.w. When compare is not present, the last component of P is used as Dsub and the array layer is specified in the second to last component of P. (The second component of P is unused for 1D shadow lookups.)\nFor non-shadow variants, the array layer comes from the last component of P."
+	},
+	"texelFetch": {
+		"prefix": "texelFetch",
+		"body": "texelFetch($1, $2)",
+		"description": "texelFetch performs a lookup of a single texel from texture coordinate P in the texture bound to sampler. The array layer is specified in the last component of P for array forms. The lod parameter (if present) specifies the level-of-detail from which the texel will be fetched. The sample specifies which sample within the texel will be returned when reading from a multi-sample texure."
+	},
+	"texelFetchOffset": {
+		"prefix": "texelFetchOffset",
+		"body": "texelFetchOffset($1, $2, $3)",
+		"description": "texelFetchOffset performs a lookup of a single texel from texture coordinate P in the texture bound to sampler. Before fetching the texel, the offset specified in offset is added to P. offset must be a constant expression. The array layer is specified in the last component of P for array forms. The lod parameter (if present) specifies the level-of-detail from which the texel will be fetched. The sample parameter specifies which sample within the texel will be returned when reading from a multi-sample texure."
+	},
+	"textureGrather": {
+		"prefix": "textureGrather",
+		"body": "textureGrather($1, $2)",
+		"description": "textureGather returns the value:\nvec4(Sample_i0_j1(P, base).comp,\n\tSample_i1_j1(P, base).comp,\n\tSample_i1_j0(P, base).comp,\n\tSample_i0_j0(P, base).comp);\nIf specified, the value of comp must be a constant integer expression with a value of 0, 1, 2, or 3, identifying the x, y, z or w component of the four-component vector lookup result for each texel, respectively. If comp is not specified, it is treated as 0, selecting the x component of each texel to generate the result."
+	},
+	"textureGratherOffset": {
+		"prefix": "textureGratherOffset",
+		"body": "textureGratherOffset($1, $2, $3)",
+		"description": "textureGatherOffset returns the value:\nvec4(Sample_i0_j1(P + offset, base).comp,\n\tSample_i1_j1(P + offset, base).comp,\n\tSample_i1_j0(P + offset, base).comp,\n\tSample_i0_j0(P + offset, base).comp);\n\nIt perfoms as textureGather but with offset applied as described in textureOffset, except that the implementation-dependent minimum and maximum offset values are given by GL_MIN_PROGRRAM_TEXTURE_GATHER_OFFSET and GL_MAX_PROGRAM_TEXTURE_GATHER_OFFSET, respectively.\n\nIf specified, the value of comp must be a constant integer expression with a value of 0, 1, 2, or 3, identifying the x, y, z or w component of the four-component vector lookup result for each texel, respectively. If comp is not specified, it is treated as 0, selecting the x component of each texel to generate the result."
+	},
+	"textureGratherOffsets": {
+		"prefix": "textureGratherOffsets",
+		"body": "textureGratherOffsets($1, $2, $3)",
+		"description": "textureGatherOffsets operates identically to textureGatherOffset, except that offsets is used to determine the location of the four texels to sample. Each of the four texels is obtained by applying the offset in offsets as a (u, v) coordinate offset to P, identifying the four-texel GL_LINEAR footprint, and then selecting the texel i0i0 of that footprint. The specified values in offsets must be set with constant integral expressions."
+	},
+	"textureGrad": {
+		"prefix": "textureGrad",
+		"body": "textureGrad($1, $2, $3, $4)",
+		"description": "textureGrad performs a texture lookup at coordinate P from the texture bound to sampler with explicit texture coordinate gradiends as specified in dPdx and dPdy. "
+	},
+	"textureGradOffset": {
+		"prefix": "textureGradOffset",
+		"body": "textureGradOffset($1, $2, $3, $4, $5)",
+		"description": "textureGradOffset performs a texture lookup at coordinate P from the texture bound to sampler with explicit texture coordinate gradiends as specified in dPdx and dPdy. An explicit offset is also supplied in offset. textureGradOffset consumes dPdx and dPdy as textureGrad and offset as textureOffset."
+	},
+	"textureLod": {
+		"prefix": "textureLod",
+		"body": "textureLod(${sampler}, ${P}, ${lod})",
+		"description": "textureLod performs a texture lookup at coordinate 'P' from the texture bound to 'sampler' with an explicit level-of-detail as specified in 'lod'."
+	},
+	"textureLodOffset": {
+		"prefix": "textureLodOffset",
+		"body": "textureLodOffset(${sampler}, ${P}, ${lod}, ${offset})",
+		"description": "textureLodOffset performs a texture lookup at coordinate 'P' from the texture bound to 'sampler' with an explicit level-of-detail as specified in 'lod'. Behavior is the same as in textureLod except that before sampling, 'offset' is added to 'P'."
+	},
+	"textureOffset": {
+		"prefix": "textureOffset",
+		"body": "textureOffset($1, $2, $3)",
+		"description": "textureOffset performs a texture lookup at coordinate P from the texture bound to sampler with an additional offset, specified in texels in offset that will be applied to the (u, v, w) texture coordinates before looking up each texel. The offset value must be a constant expression. A limited range of offset values are supported; the minimum and maximum offset values are implementation-dependent and may be determined by querying GL_MIN_PROGRAM_TEXEL_OFFSET and GL_MAX_PROGRAM_TEXEL_OFFSET, respectively.\n\nNote that offset does not apply to the layer coordinate for texture arrays. Also note that offsets are not supported for cube maps."
+	},
+	"textureProj": {
+		"prefix": "textureProj",
+		"body": "textureProj($1, $2)",
+		"description": "textureProj performs a texture lookup with projection. The texture coordinates consumed from P, not including the last component of P, are divided by the last component of P. The resulting 3rd component of P in the shadow forms is used as Dref. After these values are computed, the texture lookup proceeds as in texture."
+	},
+	"textureProjGrad": {
+		"prefix": "textureProjGrad",
+		"body": "textureProjGrad($1, $2, $3, $4)",
+		"description": "textureProjGrad performs a texture lookup with projection and explicit gradients. The texture coordinates consumed from P, not including the last component of P, are divided by the last component of P. The resulting 3rd component of P in the shadow forms is used as Dref. After these values are computed, the texture lookup proceeds as in textureGrad, passing dPdx and dPdy as gradients."
+	},
+	"textureProjGradOffset": {
+		"prefix": "textureProjGradOffset",
+		"body": "textureProjGradOffset($1, $2, $3, $4, $5)",
+		"description": "textureProjGradOffset performs a texture lookup with projection and explicit gradients and offsets. The texture coordinates consumed from P, not including the last component of P, are divided by the last component of P. The resulting 3rd component of P in the shadow forms is used as Dref. After these values are computed, the texture lookup proceeds as in textureGradOffset, passing dPdx and dPdy as gradients, and offset as the offset."
+	},
+	"textureProjLod": {
+		"prefix": "textureProjLod",
+		"body": "textureProjLod($1, $2, $3)",
+		"description": "textureProjLod performs a texture lookup with projection from an explicitly specified level-of-detail. The texture coordinates consumed from P, not including the last component of P, are divided by the last component of P. The resulting 3rd component of P in the shadow forms is used as Dref. After these values are computed, the texture lookup proceeds as in textureLod, with lod used to specify the level-of-detail from which the texture will be sampled."
+	},
+	"textureProjLodOffset": {
+		"prefix": "textureProjLodOffset",
+		"body": "textureProjLodOffset($1, $2, $3, $4)",
+		"description": "textureProjLodOffset performs a texture lookup with projection from an explicitly specified level-of-detail with an offset applied to the texture coordinates before sampling. The texture coordinates consumed from P, not including the last component of P, are divided by the last component of P. The resulting 3rd component of P in the shadow forms is used as Dref. After these values are computed, the texture lookup proceeds as in textureLodOffset, with lod used to specify the level-of-detail from which the texture will be sampled and offset used to specifiy the offset, in texels, to be applied to the texture coordinates before sampling."
+	},
+	"textureProjOffset": {
+		"prefix": "textureProjOffset",
+		"body": "textureProjOffset($1, $2, $3)",
+		"description": "textureProjOffset performs a texture lookup with projection. The texture coordinates consumed from P, not including the last component of P, are divided by the last component of P. The resulting 3rd component of P in the shadow forms is used as Dref. After these values are computed, the texture lookup proceeds as in textureOffset, with the offset used to offset the computed texture coordinates."
+	},
+	"textureQueryLod": {
+		"prefix": "textureQueryLod",
+		"body": "textureQueryLod($1, $2)",
+		"description": "Available only in the fragment shader, textureQueryLod computes the level-of-detail that would be used to sample from a texture. The mipmap array(s) that would be accessed is returned in the x component of the return value. The computed level-of-detail relative to the base level is returned in the y component of the return value.\nIf called on an incomplete texture, the result of the operation is undefined."
+	},
+	"textureSize": {
+		"prefix": "textureSize",
+		"body": "textureSize($1, $2)",
+		"description": "textureSize returns the dimensions of level lod (if present) of the texture bound to sampler. The components in the return value are filled in, in order, with the width, height and depth of the texture. For the array forms, the last component of the return value is the number of layers in the texture array."
+	},
+
+	// Noise Operation
+	"noise1": {
+		"prefix": "noise1",
+		"body": "noise1($1)",
+		"description": "float noise1(genType x);\n\nnoise1, noise2, noise3 and noise4 return noise values (vector or scalar) based on the input value x. The noise function is a stochastic function that can be used to increase visual complexity. Values returned by the noise functions give the appearance of randomness, but are not truly random. They are defined to have the following characteristics:\n\tThe return value(s) are always in the range [-1.0,1.0], and cover at least the range [-0.6, 0.6], with a Gaussian-like distribution.\n\tThe return value(s) have an overall average of 0.0.\n\tThey are repeatable, in that a particular input value will always produce the same return value.\n\tThey are statistically invariant under rotation (i.e., no matter how the domain is rotated, it has the same statistical character).\n\tThey have a statistical invariance under translation (i.e., no matter how the domain is translated, it has the same statistical character).\n\tThey typically give different results under translation.\n\tThe spatial frequency is narrowly concentrated, centered somewhere between 0.5 to 1.0.\n\tThey are C1 continuous everywhere (i.e., the first derivative is continuous)."
+	},
+	"noise2": {
+		"prefix": "noise2",
+		"body": "noise2($1)",
+		"description": "vec2 noise2(genType x);"
+	},
+	"noise3": {
+		"prefix": "noise3",
+		"body": "noise3($1)",
+		"description": "vec3 noise3(genType x);"
+	},
+	"noise4": {
+		"prefix": "noise4",
+		"body": "noise4($1)",
+		"description": "vec4 noise4(genType x);"
+	},
+
+	// Pixel Rate
+	"dFdx": {
+		"prefix": "dFdx",
+		"body": "dFdx($1)",
+		"description": "genType dFdx(genType p);\n\nAvailable only in the fragment shader, these functions return the partial derivative of expression p with respect to the window x coordinate (for dFdx*) and y coordinate (for dFdy*)."
+	},
+	"dFdy": {
+		"prefix": "dFdy",
+		"body": "dFdy($1)",
+		"description": "genType dFdy(genType p);\n\nAvailable only in the fragment shader, these functions return the partial derivative of expression p with respect to the window x coordinate (for dFdx*) and y coordinate (for dFdy*)."
+	},
+	"fwidth": {
+		"prefix": "fwidth",
+		"body": "fwidth($1)",
+		"description": "genType fwidth(genType p);\n\nAvailable only in the fragment shader, these functions return the sum of the absolute derivatives in x and y using local differencing for the input argument 'p'. fwidth is equivalent to abs(dFdx(p)) + abs(dFdy(p)) ."
+	},
+
+	// Other
+	"fma": {
+		"prefix": "fma",
+		"body": "fma($1, $2, $3)",
+		"description": "genType fma(genType a, genType b, genType c);\ngenDType fma(genDType a, genDType b, genDType c);\n\nfma performs, where possible, a fused multiply-add operation, returning a * b + c. In use cases where the return value is eventually consumed by a variable declared as precise:\n\tfma() is considered a single operation, whereas the expression a * b + c consumed by a variable declared as precise is considered two operations.\n\tThe precision of fma() can differ from the precision of the expression a * b + c.\n\tfma() will be computed with the same precision as any other fma() consumed by a precise variable, giving invariant results for the same input values of a, b and c.\nOtherwise, in the absence of precise consumption, there are no special constraints on the number of operations or difference in precision between fma() and the expression a * b + c."
+	},
+	"outerProduct": {
+		"prefix": "outerProduct",
+		"body": "outerProduct(${c}, %{r})",
+		"description": "outerProduct treats the first parameter 'c' as a column vector (matrix with one column) and the second parameter 'r' as a row vector (matrix with one row) and does a linear algebraic matrix multiply c * r, yielding a matrix whose number of rows is the number of components in 'c' and whose number of columns is the number of components in 'r'."
+	},
+	"uaddCarry": {
+		"prefix": "uaddCarry",
+		"body": "uaddCarry($1, $2, $3)",
+		"description": "genUType uaddCarry(genUType x, genUType y, out genUType carry);\n\nuaddCarry adds two 32-bit unsigned integer variables (scalars or vectors) and generates a 32-bit unsigned integer result, along with a carry output. The result is the sum of 'x' and 'y' modulo 232. The value carry is set to 0 if the sum is less than 232 and to 1 otherwise."
+	},
+	"usubBorrow": {
+		"prefix": "usubBorrow",
+		"body": "usubBorrow($1, $2, $3)",
+		"description": "genUType usubBorrow(genUType x, genUType y, out genUType borrow);\n\nusubBorrow subtracts two 32-bit unsigned integer variables (scalars or vectors) and generates a 32-bit unsigned integer result, along with a borrow output. The result is the difference of 'x' and 'y' if non-negative, or 232 plus that difference otherwise. The value borrow is set to 0 if x ≥ y and to 1 otherwise."
+	},
+
+	// ATOMIC
+	"atomicCounter": {
+		"prefix": "atomicCounter",
+		"body": "atomicCounter($1)",
+		"description": "uint atomicCounter(atomic_uint c);\n\nreturn the current value of an atomic counter\n\nOpenGL4.2"
+	},
+	"atomicCounterDecrement": {
+		"prefix": "atomicCounterDecrement",
+		"body": "atomicCounterDecrement($1)",
+		"description": "uint atomicCounterDecrement(atomic_uint c);\n\natomically decrement a counter and return the prior value\n\nOpenGL4.2"
+	},
+	"atomicCounterIncrement": {
+		"prefix": "atomicCounterIncrement",
+		"body": "atomicCounterIncrement($1)",
+		"description": "uint atomicCounterIncrement(atomic_uint c);\n\natomically increment a counter and return the prior value\n\nOpenGL4.2"
+	},
+	"atomicAdd": {
+		"prefix": "atomicAdd",
+		"body": "atomicAdd($1, $2)",
+		"description": "int atomicAdd(inout int mem, int data);\nuint atomicAdd(inout uint mem, uint data);\n\nperform an atomic addition to a variable\n\nOpenGL4.3"
+	},
+	"atomicAnd": {
+		"prefix": "atomicAnd",
+		"body": "atomicAnd($1, $2)",
+		"description": "int atomicAnd(inout int mem, int data);\nuint atomicAnd(inout uint mem, uint data);\n\nperform an atomic logical AND operation to a variable\n\nOpenGL4.3"
+	},
+	"atomicCompSwap": {
+		"prefix": "atomicCompSwap",
+		"body": "atomicCompSwap($1, $2, $4)",
+		"description": "int atomicCompSwap(inout int mem, uint compare, uint data);\nuint atomicCompSwap(inout uint mem, uint compare, uint data);\n\nperform an atomic compare-exchange operation to a variable\n\nOpenGL4.3"
+	},
+	"atomicExchange": {
+		"prefix": "atomicExchange",
+		"body": "atomicExchange($1, $2)",
+		"description": "int atomicExchange(inout int mem, int data);\nuint atomicExchange(inout uint mem, uint data);\n\nperform an atomic exchange operation to a variable\n\nOpenGL4.3"
+	},
+	"atomicMax": {
+		"prefix": "atomicMax",
+		"body": "atomicMax($1, $2)",
+		"description": "int atomicMax(inout int mem, int data);\nuint atomicMax(inout uint mem, uint data);\n\nperform an atomic max operation to a variable\n\nOpenGL4.3"
+	},
+	"atomicMin": {
+		"prefix": "atomicMin",
+		"body": "atomicMin($1, $2)",
+		"description": "int atomicMin(inout int mem, int data);\nuint atomicMin(inout uint mem, uint data);perform an atomic min operation to a variable\n\nOpenGL4.3"
+	},
+	"atomicOr": {
+		"prefix": "atomicOr",
+		"body": "atomicOr",
+		"description": "int atomicOr(inout int mem, int data);\nuint atomicOr(inout uint mem, uint data);\n\nperform an atomic logical OR operation to a variable\n\nOpenGL4.3"
+	},
+	"atomicXor": {
+		"prefix": "atomicXor",
+		"body": "atomicXor",
+		"description": "int atomicXor(inout int mem, int data);\nuint atomicXor(inout uint mem, uint data);\n\nperform an atomic logical exclusive OR operation to a variable\n\nOpenGL4.3"
+	},
+
+	///TEXTURE LOOKUP FUNCTIONS
+	"texture2D": {
+		"prefix": "texture2D",
+		"body":	"texture2D",
+		"description": "vec4 texture2D(sampler2D sampler, vec2 coord)\nvec4 texture2D(sampler2D sampler, vec2 coord, float bias)\n\nThe texture2D function returns a texel, i.e. the (color) value of the texture for the given coordinates. The function has one input parameter of the type sampler2D and one input parameter of the type vec2 : sampler, the uniform the texture is bound to, and coord, the 2-dimensional coordinates of the texel to look up.\n\nThere is an optional third input parameter of the type float: bias. After calculating the appropriate level of detail for a texture with mipmaps the bias is added before the actual texture lookup operation is executed.\n\nSide note: On iOS devices texture lookup functionality is only available in the fragment shader."
+	},
+
+	"textureCube": {
+		"prefix": "textureCube",
+		"body":	"textureCube",
+		"description": "vec4 textureCube(samplerCube sampler, vec3 coord)\nvec4 textureCube(samplerCube sampler, vec3 coord, float bias)\n\nThe textureCube function returns a texel, i.e. the (color) value of the texture for the given coordinates. The function has one input parameter of the type samplerCube and one input parameter of the type vec3 : sampler, the uniform the texture is bound to, and coord, the 3-dimensional coordinates of the texel to look up.\n\nThere is an optional third input parameter of the type float: bias. After calculating the appropriate level of detail for a texture with mipmaps the bias is added before the actual texture lookup operation is executed.\n\nSide note: On iOS devices texture lookup functionality is only available in the fragment shader."
+	},
+
+	// FOR CONVENIENT
+	"PI": {
+		"prefix": "PI",
+		"body": [
+			"const float PI = 3.14159265359;"
+		],
+		"description": "PI setup"
+	},
+
+	"random2d": {
+		"prefix": "random2d",
+		"body": [
+			"float random2d(vec2 coord){",
+			"\treturn fract(sin(dot(coord.xy, vec2(12.9898, 78.233))) * 43758.5453);",
+			"}"
+		],
+		"description": "random 2d function"
+	},
+
+	"noise1d": {
+		"prefix": "noise1d",
+		"body": [
+			"float noise1d(float v){",
+			"\treturn cos(v + cos(v * 90.1415) * 100.1415) * 0.5 + 0.5;",
+			"}"
+		],
+		"description": "noise1d function"
+	},
+
+	"simple setup": {
+		"prefix": "simple setup",
+		"body": [
+			"#ifdef GL_ES",
+			"precision mediump float;",
+			"#endif",
+			"",
+			"uniform float u_time;",
+			"uniform vec2 u_resolution;",
+			"uniform vec2 u_mouse;",
+			"",
+			"void main(){",
+			"\tvec2 coord = gl_FragCoord.xy;",
+			"\tvec3 color = vec3(0.0);",
+			"",
+			"\tgl_FragColor = vec4(color, 1.0);",
+			"}"
+		],
+		"description": "Starter code including 'ifdef' check, u_ methods & the main"
+	},
+
+	"circle shape": {
+		"prefix": "circle shape",
+		"body": [
+			"float ${NAME}(vec2 position, float radius){",
+			"\treturn step(radius, length(position - vec2(0.5)));",
+			"}"
+		],
+		"description": "circle shape"
+	},
+
+	"rectangle shape": {
+		"prefix": "rectangle shape",
+		"body": [
+			"float ${NAME}(vec2 position, vec2 scale){",
+				"\tscale = vec2(0.5) - scale * 0.5;",
+				"\tvec2 shaper = vec2(step(scale.x, position.x), step(scale.y, position.y));",
+				"\tshaper *= vec2(step(scale.x, 1.0 - position.x), step(scale.y, 1.0 - position.y));",
+				"\treturn shaper.x * shaper.y;",
+			"}"
+		],
+		"description": "rectangle shape"
+	},
+
+	"polygon shape": {
+		"prefix": "polygon shape",
+		"body": [
+			"float ${NAME}(vec2 position, float radius, float sides){",
+				"\tposition = position * 2.0 - 1.0;",
+				"\tfloat angle = atan(position.x, position.y);",
+				"\tfloat slice = PI * 2.0 / sides;",
+				"\treturn step(radius, cos(floor(0.5 + angle / slice) * slice - angle) * length(position));",
+			"}"
+		],
+		"description": "polygon shape"
+	},
+
+	"scale": {
+		"prefix": "scale",
+		"body": [
+			"mat2 scale(vec2 scale){",
+				"\treturn mat2(scale.x, 0.0, 0.0, scale.y);",
+			"}"
+		],
+		"description": "scale"
+	},
+
+	"rotate": {
+		"prefix": "rotate",
+		"body": [
+			"mat2 rotate(float angle){",
+				"\treturn mat2(cos(angle), -sin(angle), sin(angle), cos(angle));",
+			"}"
+		],
+		"description": "rotate"
+	},
+
+	// Customize Features
+	"#include": {
+		"prefix": "#include",
+		"body": "#pragma include<$1>",
+		"description": "include another functional shader"
+	}
+}
